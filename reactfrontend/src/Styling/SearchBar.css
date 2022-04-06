@@ -38,6 +38,24 @@
     display: grid;
     place-items: center;
 }
+.advSearchMenu {
+    margin-top: 30px;
+    font-size: 20px;
+    border: 2px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px;
+    height: 400px;
+    width: 430px;
+    overflow: hidden;
+    background-color: rgb(28, 55, 129);
+}
+
+.advSearchText {
+    font-size: 18px;
+    margin-left: 20px;
+    text-align: left;
+}
   
 input:focus {
     outline: none;
@@ -90,3 +108,8 @@ a:hover {
 #advBtn {
     cursor: pointer;
 }
+
+.center {
+    align-items: center;
+    justify-content: center;
+  }

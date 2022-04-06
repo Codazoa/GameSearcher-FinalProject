@@ -1,11 +1,14 @@
 import React from 'react'
+import "../Styling/GameResults.css"
 
 function GameResults() {
     return (
-        <div>
-            <h1>Gameresults page</h1>
+        <div className="GameResults">
+            <div className="GR-header">
+                <div>GameResults</div>
+            </div>    
         </div>
     )
 }
 
-export default GameResults
+export default GameResults;

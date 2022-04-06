@@ -2,8 +2,14 @@ import React from "react";
 import "../Styling/SearchResults.css";
 import SearchBar from "../Components/searchbar";
 import Tuple from "../Components/tuple";
+import { useNavigate } from 'react-router-dom';
 
 function SearchResults() {
+    let navigate = useNavigate();
+    const gamefound = () => {
+        navigate("/gameresults")
+    };
+
     return (
         <div className="SearchResults">
             <header className="SR-header">
