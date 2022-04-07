@@ -2,3 +2,5 @@
 *.pptx
 *.log
 *.ipynb
+*.zip
+gameData.json
