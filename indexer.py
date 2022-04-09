@@ -19,7 +19,7 @@ class MySchema(SchemaClass):
     mode = KEYWORD(stored=True, lowercase=True, scorable=True)
     platforms = KEYWORD(stored=True, lowercase=True, scorable=True)
     summary = TEXT(stored=True, analyzer=analysis.StemmingAnalyzer())
-    body = TEXT(stored=True, analyzer=analysis.StemmingAnalyzer())
+    body = TEXT(analyzer=analysis.StemmingAnalyzer())
 
 
 def create_index(filename):
