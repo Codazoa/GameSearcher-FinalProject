@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Styling/App.css";
 import Home from "./Pages/Home";
 import SearchResults from "./Pages/SearchResults";
