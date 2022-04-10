@@ -3,4 +3,5 @@
 *.log
 *.ipynb
 *.zip
+/venv
 gameData.json
