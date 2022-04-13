@@ -8,11 +8,21 @@ import { useNavigate } from 'react-router-dom';
 function SearchBar({ placeholder }) {
   let navigate = useNavigate();
   const [wordEntered, setWordEntered] = useState("");
+  const [keyWordEntered, setKeyWordEntered] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [isChecked, setIsChecked] = useState(true);
+  const [newKeyWord, setNewKeyWord] = useState([
+    { keyWord: "" }
+  ]);
 
   const handleFilter = (event) => {
     const searchWord = event.target.value;
     setWordEntered(searchWord);
+  };
+
+  const advhandleFilter = (event) => {
+    const searchWord = event.target.value;
+    setKeyWordEntered(searchWord);
   };
 
   const clearInput = () => {
@@ -23,16 +33,34 @@ function SearchBar({ placeholder }) {
     const x = event.which
     if(x === 13) {
       /* export query */
-      navigate("/searchresults")
+      navigate("/searchresults");
     } 
   };
 
   const togglevis = () => {
-    setIsVisible(prevIsVisibleValue => !prevIsVisibleValue)
+    setIsVisible(!isVisible);
+    setIsChecked(true);
   }
 
-  const advSearchPage = (props) => {
-    return <h1 classname="advSearchMenu"> hello, {props.name}</h1>;
+  const toggleTypeSearch = () => {
+    setIsChecked(!isChecked);
+  }
+
+  const handleNewKeyWord = () => {
+    setNewKeyWord([...newKeyWord, { keyWord: ""}])
+  }
+
+  const handleRemoveKeyWord = (index) => {
+    const list = [...newKeyWord];
+    list.splice(index, 1);
+    setNewKeyWord(list);
+  }
+
+  const handleKeyWords = (e, index) => {
+    const {name, value} = e.target;
+    const list = [...newKeyWord];
+    list[index][name] = value;
+    setNewKeyWord(list);
   }
 
   return (
@@ -61,10 +89,70 @@ function SearchBar({ placeholder }) {
       </div>
       {isVisible &&
         <div className="advSearchMenu">
-          <div>Advanced Search Options</div>
+        <div className="advSearchHeader">Advanced Search Options</div>
           <div className="advSearchText">
-            <div>Keyword: </div>
-            <div>Consoles: </div>
+            {newKeyWord.map((singleKeyWord, index) => (
+              <div>
+                <div>Keyword: 
+                  <div className="advsearch">
+                    <div className="advsearchInputs">
+                      <input
+                        type="text"
+                        value={singleKeyWord.newKeyWord}
+                        onChange={(e) => handleKeyWords(e, index)}
+                      />
+                      <div className="newKeyBtn">
+                        {(newKeyWord.length - 1 === index) && (newKeyWord.length > 1) && (
+                          <button 
+                            className="newKeyBtnStyle" 
+                            id="newKeyBtnStyle" 
+                            onClick={() => handleRemoveKeyWord(index)}
+                          >
+                            Remove Keyword
+                          </button>
+                        )}
+                      </div>
+                      <div className="newKeyBtn">
+                        {(newKeyWord.length - 1 === index) && (newKeyWord.length < 4) && (
+                          <button 
+                            className="newKeyBtnStyle" 
+                            id="newKeyBtnStyle" 
+                            onClick={handleNewKeyWord}
+                          >
+                            New Keyword
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div className="typeSearch">
+              Consoles
+              <div className="center">
+                <label>
+                  Xbox:
+                  <input type="checkbox" />
+                </label>
+                <label>
+                  Playstation:
+                  <input type="checkbox"/>
+                </label>
+                <label>
+                  Nintendo:
+                  <input type="checkbox"/>
+                </label>
+              </div>
+            </div>
+            <div className="typeSearch">
+              <label>  
+                Conjunctive: <input type="checkbox" checked={isChecked} onChange={toggleTypeSearch} />
+              </label>
+              <label>
+                Disjunctive: <input type="checkbox" checked={!isChecked} onChange={toggleTypeSearch} />
+              </label>
+            </div>
           </div>
         </div>
       }

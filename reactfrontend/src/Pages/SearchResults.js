@@ -20,20 +20,23 @@ function SearchResults() {
                 <header className="SR-body">
                     <Tuple />
                     <Tuple />
-                    <Tuple />
                     {/* call function to display tuples */}
                 </header>
                 <header className="SR-body">
                     <Tuple />
                     <Tuple />
-                    <Tuple />
-                    {/* call function to display tuples */}
                 </header>
                 <header className="SR-body">
                     <Tuple />
                     <Tuple />
+                </header>
+                <header className="SR-body">
                     <Tuple />
-                    {/* call function to display tuples */}
+                    <Tuple />
+                </header>
+                <header className="SR-body">
+                    <Tuple />
+                    <Tuple />
                 </header>
             </header>
         </div>

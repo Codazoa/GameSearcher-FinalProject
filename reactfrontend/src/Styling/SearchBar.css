@@ -14,6 +14,20 @@
     height: 30px;
     width: 300px;
 }
+
+.advsearchInputs {
+    display: flow;
+}
+  
+.advsearch input {
+    background-color: white;
+    border: 0;
+    border-radius: 10px;
+    font-size: 18px;
+    padding: 15px;
+    height: 5px;
+    width: 140px;
+}
   
 .searchIcon {
     border: 1px;
@@ -45,16 +59,50 @@
     border-style: solid;
     border-color: black;
     border-radius: 10px;
-    height: 400px;
-    width: 430px;
-    overflow: hidden;
+    height: 295px;
+    width: px;
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     background-color: rgb(28, 55, 129);
 }
 
+.advSearchMenu::-webkit-scrollbar {
+    display: none;
+}
+
 .advSearchText {
+    margin-top: 5px;
     font-size: 18px;
-    margin-left: 20px;
-    text-align: left;
+    text-align: center;
+    place-items: center;
+    padding: 5px;
+    display: grid;
+}
+
+.typeSearch {
+    display: flow;
+}
+
+.advSearchHeader {
+    margin-top: 15px;
+    font-size: 22px;
+    text-decoration: underline;
+}
+
+.newKeyBtn {
+    margin-top: 15px;
+}
+
+.newKeyBtnStyle {
+    border: 1px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 5px;
+    width: 150px;
+    background-color: rgb(200, 209, 233);
 }
   
 input:focus {
@@ -108,8 +156,12 @@ a:hover {
 #advBtn {
     cursor: pointer;
 }
+#newKeyBtnStyle {
+    cursor: pointer;
+}
 
 .center {
     align-items: center;
     justify-content: center;
+    display: grid;
   }
