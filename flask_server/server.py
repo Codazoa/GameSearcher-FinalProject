@@ -9,17 +9,20 @@ from whoosh.qparser import QueryParser
 from whoosh.qparser import MultifieldParser
 from whoosh import qparser
 import json
+import re
+import datetime
 
 # flask server for backend
 
 app = Flask(__name__)
 CORS(app)
-@app.route('/', methods=['GET', 'POST'])
-def home():
-    return ('Hello world')
 
-@app.route('/gameresults')
+@app.route('/searchresults')
 def search():
+    """ /searchresults?search=<query to search>&console=<console>&mode=<mode>&page=<pageNum>
+        All arguments besides search are optional
+    """
+    mySearcher.console = 'all'
     mySearcher.advSearch = False
 
     # setting up optional arguments
@@ -30,8 +33,8 @@ def search():
 
     # change engine search features
     mySearcher.console = console
-    mySearcher.mode = int(mode) if mode and mode.isdigit() else 0
-    mySearcher.page = int(page) if page and page.isdigit() else 0
+    mySearcher.mode = int(mode) if mode and mode.isdigit() and int(mode) < 2 else 0
+    mySearcher.page = int(page) if page and page.isdigit() else 1
     if console or mode:
         mySearcher.advSearch = True
 
@@ -53,6 +56,45 @@ def search():
 
     return retResults
 
+@app.route('/gameresults')
+def gameSearch():
+    """ /gameresults?title=<title to search>
+    """
+    title = request.args.get('title')
+
+    mySearcher.advSearch = False
+    mySearcher.console = 'all'
+    mySearcher.mode = 0
+    mySearcher.page = 1
+
+    title, image, url, console, release = mySearcher.search(title)
+
+    results = zip(title, image, url, release)
+
+    retResults = {
+        'results': []
+    }
+
+    if not title:
+        return retResults
+
+    for title, image, url, release in results:
+        pattern = re.compile('(19|20)\d{2}')
+        searchObj = (re.search(pattern, release))
+
+        release = searchObj.group(0) if searchObj else "0001"
+
+        release = datetime.datetime.strptime(release, "%Y")
+
+        toAdd = {'title': title, 'image': image, 'url': url, 'release': release.year}
+        retResults['results'].append(toAdd)
+
+    # sort releases by year
+
+    retResults['results'] = sorted(retResults['results'], key=lambda x: x['release'])
+
+
+    return retResults
 
 
 class MySchema(SchemaClass):
@@ -74,8 +116,8 @@ class WhooshSearcher(object):
     def __init__(self):
         super(WhooshSearcher, self).__init__()
         self.searchLimit = 10
-        self.console = ''
-        self.page = 0
+        self.console = 'all'
+        self.page = 1
         self.mode = 0 # 0: disjuntive   1: conjunctive
         self.advSearch = False # boolean to distinguish advanced search
 
@@ -85,6 +127,7 @@ class WhooshSearcher(object):
         image = list()
         url = list()
         console = list()
+        release = list()
 
         # search index for query
         with self.indexer.searcher() as search:
@@ -100,7 +143,7 @@ class WhooshSearcher(object):
                     query = QueryParser('title', schema=self.indexer.schema)
 
             query = query.parse(queryEntered)
-            results = search.search(query, limit=self.searchLimit)
+            results = search.search_page(query, self.page)
 
             # add results to lists for return
             for x in results:
@@ -108,9 +151,11 @@ class WhooshSearcher(object):
                 image.append(x['image'])
                 url.append(x['url'])
                 console.append(x['platforms'])
+                release.append(x['release'])
+
 
         # return title, image, and content of each
-        return title, image, url, console
+        return title, image, url, console, release
 
     def open_index(self):
         if os.path.exists('../indexdir/MAIN_WRITELOCK'):
