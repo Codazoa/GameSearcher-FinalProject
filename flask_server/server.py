@@ -18,43 +18,33 @@ CORS(app)
 def home():
     return ('Hello world')
 
-@app.route('/gameresults/<apiString>')
-def search(apiString):
-    apiString = apiString.split('&')
-    print(apiString)
-
+@app.route('/gameresults')
+def search():
     mySearcher.advSearch = False
 
-    search = {
-        'query': ' ',
-        'console': ' ',
-        'mode': 0
-    }
-
-    for string in apiString:
-        if validQuery(string):
-            search['query'] = string.split('=', 1)[1]
-            print(f'Good Query\n{search["query"]}')
-        elif validPlatform(string):
-            search['console'] = string.split('=', 1)[1]
-            print(f'Good Console:\n{search["console"]}')
-        elif validMode(string):
-            search['mode'] = int(string.split('=', 1)[1])
-            print(f'Good Mode:\n{search["mode"]}')
+    # setting up optional arguments
+    searchEntered = request.args.get('search')
+    console = request.args.get('console')
+    mode = request.args.get('mode')
+    page = request.args.get('page')
 
     # change engine search features
-    if search['console'] != ' ':
-        mySearcher.console = search['console']
-        mySearcher.mode = search['mode']
+    mySearcher.console = console
+    mySearcher.mode = int(mode) if mode and mode.isdigit() else 0
+    mySearcher.page = int(page) if page and page.isdigit() else 0
+    if console or mode:
         mySearcher.advSearch = True
-
-    title, image, url, console = mySearcher.search(search['query'])
-
-    results = zip(title, image, url, console) # zip of results
 
     retResults = {
         'results': []
     }
+
+    if not searchEntered:
+        return retResults
+
+    title, image, url, console = mySearcher.search(searchEntered)
+
+    results = zip(title, image, url, console) # zip of results
 
     # step through to add results to dictionary for json return
     for title, image, url, console in results:
@@ -62,20 +52,6 @@ def search(apiString):
         retResults['results'].append(toAdd)
 
     return retResults
-
-def validQuery(query):
-    return 'query' == query.split('=', 1)[0] # dealing with query string
-
-def validPlatform(query):
-    query = query.split('=', 1)
-    if 'console' == query[0]: # dealing with console string
-        return 'xbox' == query[1] or 'playstation' == query[1] or 'nintendo' == query[1]
-    return False
-
-def validMode(query):
-    query = query.split('=', 1)
-    if 'mode' == query[0]:
-        return query[1].isdigit() and int(query[1]) in range(2)
 
 
 
@@ -99,6 +75,7 @@ class WhooshSearcher(object):
         super(WhooshSearcher, self).__init__()
         self.searchLimit = 10
         self.console = ''
+        self.page = 0
         self.mode = 0 # 0: disjuntive   1: conjunctive
         self.advSearch = False # boolean to distinguish advanced search
 
