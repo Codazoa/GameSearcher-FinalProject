@@ -1,19 +1,59 @@
 .GameResults {
     text-align: center;
+    min-height: 100vh;
     background-image: linear-gradient(to right, blue, white);
 }
 
 .GR-header {
-    min-height: 100vh;
     display: flex;
+    min-height: 10vh;
+    padding: 30px;
     flex-direction: column;
-    align-items: center;
     font-size: 40px;
     color: white;
+    text-decoration: solid;
 }
 
 .GR-body {
-    min-height: 100vh;
+    display: inline-block;
+    max-width: 100%;
+    height: 55vh;
+    overflow-y: hidden;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.fade-in-section {
+    opacity: 0;
+    transform: translateY(20vh);
+    visibility: hidden;
+    transition: opacity 0.5s ease-out, transform 0.6s ease-out;
+    will-change: opacity, visibility;
+    border: 2px;
+    padding: 20px;
+    margin-right: 30px;
+    margin-left: 30px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    height:450px;
+    width: 550px;
+    background-color: rgb(133, 157, 238);
+}
+  
+.fade-in-section.is-visible {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+}
+
+.GR-body li {
+    display: inline-block;
+
+}
+
+.timeline {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,11 +61,8 @@
     color: white;
 }
 
-.timeline {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 40px;
-    color: white;
+::-webkit-scrollbar {
+    scrollbar-color: rgb(133, 157, 238);
+    scrollbar-width: thin;
 }
+

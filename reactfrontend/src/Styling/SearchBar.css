@@ -54,12 +54,14 @@
 }
 .advSearchMenu {
     margin-top: 30px;
+    margin-bottom: 30px;
     font-size: 20px;
+    padding: 20px;
     border: 2px;
     border-style: solid;
     border-color: black;
     border-radius: 10px;
-    height: 295px;
+    height: auto;
     width: px;
     overflow: auto;
     -ms-overflow-style: none;
@@ -71,11 +73,11 @@
     display: none;
 }
 
-.advSearchText {
-    margin-top: 5px;
-    font-size: 18px;
-    text-align: center;
+.advSearchOption {
+    margin-top: 8px;
+    font-size: 20px;
     place-items: center;
+    color: white;
     padding: 5px;
     display: grid;
 }
@@ -85,8 +87,8 @@
 }
 
 .advSearchHeader {
-    margin-top: 15px;
-    font-size: 22px;
+    margin-top: 10px;
+    font-size: 24px;
     text-decoration: underline;
 }
 

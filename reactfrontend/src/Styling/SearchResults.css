@@ -17,7 +17,6 @@
     display: flex;
     padding: 5px;
     flex-direction: row;
-    align-items: center;
     overflow:visible;
 }
 
@@ -39,22 +38,23 @@
     border-style: solid;
     border-color: black;
     border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     height: 300px;
     width: 300px;
     overflow: hidden;
-    flex-direction: row-reverse;
     background-color: rgb(133, 157, 238);
-    display: grid;
     place-items: center;
 }
 
 .tuplestext {
+    padding: 20px;
     font-size: 30px;
     overflow: hidden;
     flex-direction: column;
-    display: block;
-    place-items: center;
+    display: inline-block;
+    text-decoration: none;
 }
-#tuplebtn {
+#tuplebtn:hover {
     cursor: pointer;
+    text-decoration: underline;
 }
