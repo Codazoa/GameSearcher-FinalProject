@@ -18,15 +18,66 @@ CORS(app)
 def home():
     return ('Hello world')
 
-@app.route('/gameresults', methods=['GET', 'POST'])
-def search():
-    global mySearcher
-    mySearcher = WhooshSearcher()
-    mySearcher.open_index()
-    query = 'Halo CE'
-    title, image, url, console = mySearcher.search(query)
+@app.route('/gameresults/<apiString>')
+def search(apiString):
+    apiString = apiString.split('&')
+    print(apiString)
 
-    return "title, image, url, console"
+    mySearcher.advSearch = False
+
+    search = {
+        'query': ' ',
+        'console': ' ',
+        'mode': 0
+    }
+
+    for string in apiString:
+        if validQuery(string):
+            search['query'] = string.split('=', 1)[1]
+            print(f'Good Query\n{search["query"]}')
+        elif validPlatform(string):
+            search['console'] = string.split('=', 1)[1]
+            print(f'Good Console:\n{search["console"]}')
+        elif validMode(string):
+            search['mode'] = int(string.split('=', 1)[1])
+            print(f'Good Mode:\n{search["mode"]}')
+
+    # change engine search features
+    if search['console'] != ' ':
+        mySearcher.console = search['console']
+        mySearcher.mode = search['mode']
+        mySearcher.advSearch = True
+
+    title, image, url, console = mySearcher.search(search['query'])
+
+    results = zip(title, image, url, console) # zip of results
+
+    retResults = {
+        'results': []
+    }
+
+    # step through to add results to dictionary for json return
+    for title, image, url, console in results:
+        toAdd = {'title': title, 'image': image, 'url': url, 'console': console}
+        retResults['results'].append(toAdd)
+
+    return retResults
+
+def validQuery(query):
+    return 'query' == query.split('=', 1)[0] # dealing with query string
+
+def validPlatform(query):
+    query = query.split('=', 1)
+    if 'console' == query[0]: # dealing with console string
+        return 'xbox' == query[1] or 'playstation' == query[1] or 'nintendo' == query[1]
+    return False
+
+def validMode(query):
+    query = query.split('=', 1)
+    if 'mode' == query[0]:
+        return query[1].isdigit() and int(query[1]) in range(2)
+
+
 
 class MySchema(SchemaClass):
     # database schema to use in the whoosh index
@@ -47,7 +98,8 @@ class WhooshSearcher(object):
     def __init__(self):
         super(WhooshSearcher, self).__init__()
         self.searchLimit = 10
-        self.mode = 1 # 0: conjuntive   1: disjunctive
+        self.console = ''
+        self.mode = 0 # 0: disjuntive   1: conjunctive
         self.advSearch = False # boolean to distinguish advanced search
 
     def search(self, queryEntered):
@@ -60,14 +112,14 @@ class WhooshSearcher(object):
         # search index for query
         with self.indexer.searcher() as search:
             if self.advSearch:
-                if self.mode == 1:
+                if self.mode == 0:
                     query = MultifieldParser(['title', 'dev', 'pub','genres','mode','platforms','summary','body'], schema=self.indexer.schema, group=qparser.OrGroup)
-                elif self.mode == 0:
+                elif self.mode == 1:
                     query = MultifieldParser(['title', 'dev', 'pub','genres','mode','platforms','summary','body'], schema=self.indexer.schema)
             else:
-                if self.mode == 1:
+                if self.mode == 0:
                     query = QueryParser('title', schema=self.indexer.schema, group=qparser.OrGroup)
-                elif self.mode == 0:
+                elif self.mode == 1:
                     query = QueryParser('title', schema=self.indexer.schema)
 
             query = query.parse(queryEntered)
