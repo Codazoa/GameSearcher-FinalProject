@@ -1,21 +1,41 @@
 \section{Introduction}
 
-In traditional video game search engines, the query pertains to titles and genres. If the user does not know the name of the game they are looking for, this can lead to frustration. Our search engine allows the user to specify which section of the game's description they want to search over. For example, the user could choose to search over summaries if they know the general characteristics of their desired game.
+In traditional video game search engines, the query pertains to titles and genres. If the user does not know the name of the game they are looking for, this can lead to frustration. Our search engine allows the user to specify which section of the game's description they want to search over. For example, the user could choose to search over summaries if they know the general characteristics of the game they desire.
 
 \section{Collecting the data}
 The data used in our database came from scraping wikipedia articles for video games. Wikipeida offers large lists of games for each major console. The scraper was designed to pull information from the info box, description, and main body of each page.
 
-%\begin{figure}[h!]
-%\includegraphics[width=1in]{infobox}
-%\end{figure}
+
+
+The infobox (Figure \ref{fig:infobox}) contains most of the game's information we will collect
+
+\begin{figure}[h!]
+\includegraphics[width=1in]{infobox}
+\caption{Wikipedia Infobox}
+\label{fig:infobox}
+\end{figure}
 
 There were 16,508 games collected in total. This data was collected into a JSON format (Figure \ref{fig:JSONsample}) so that the indexer program could easily add the data into the Whoosh! index. 
 
-\begin{figure}
-\includegraphics[width=3in]{jsonEntry}
-\caption{JSON sample from data}
+\begin{minipage}[H]{0.4\textwidth}
+\begin{verbatim}
+{
+  "title": "007 Racing",                
+  "url": "https://en.wikipedia.org/...",
+  "image": "https://upload.wikimedi...",
+  "release": " November 2000",          
+  "developer": "Eutechnyx",             
+  "publisher": "EA Games",              
+  "genres": "Racing",                   
+  "modes": "Single-player, multiplayer",
+  "platforms": "PlayStation",           
+  "summary": "007 Racing is a 2000 ...",
+  "body": "In 007 Racing the player..."
+}
+\end{verbatim}
+\captionof{figure}{Sample tuple from collected data}
 \label{fig:JSONsample}
-\end{figure}
+\end{minipage}
 
 \section{Indexing the data}
 The Whoosh! python module was used to index the collected data. We chose to collect and save the url, title, image url, release date, developers, publishers, genres, game modes, platforms, and summary (Figure \ref{fig:whooshschema}). These will be potential data points that could be returned to the user. The body text we collected will not need to be returned to the user so it was indexed but not stored. Choosing not to store the body text saved nearly 70MB of space from our index. Whoosh will work together with other modules in order to serve the data from the backend api to the frontend.
@@ -55,7 +75,7 @@ of the reference to the \LaTeX\ book, the citations in
 this paper are to articles which have nothing to
 do with the present subject and are used as
 examples only.
-%\end{document}  % This is where a 'short' article might terminate
+\end{document}  % This is where a 'short' article might terminate
 
 
 
