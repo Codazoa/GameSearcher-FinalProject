@@ -67,9 +67,6 @@ def gameSearch():
     mySearcher.mode = 0
     mySearcher.page = 1
 
-    title, image, url, console, release = mySearcher.search(title)
-
-    results = zip(title, image, url, release)
 
     retResults = {
         'results': []
@@ -77,6 +74,10 @@ def gameSearch():
 
     if not title:
         return retResults
+        
+    title, image, url, console, release = mySearcher.search(title)
+
+    results = zip(title, image, url, release)
 
     for title, image, url, release in results:
         pattern = re.compile('(19|20)\d{2}')
