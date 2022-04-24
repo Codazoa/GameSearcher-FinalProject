@@ -17,7 +17,7 @@ import datetime
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/searchresults')
+@app.route('/searchresults', methods=['GET'])
 def search():
     """ /searchresults?search=<query to search>&console=<console>&mode=<mode>&page=<pageNum>
         All arguments besides search are optional
@@ -56,7 +56,7 @@ def search():
 
     return retResults
 
-@app.route('/gameresults')
+@app.route('/gameresults', methods=['GET'])
 def gameSearch():
     """ /gameresults?title=<title to search>
     """
