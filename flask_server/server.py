@@ -45,7 +45,7 @@ def search():
     if not searchEntered:
         return retResults
 
-    title, image, url, console = mySearcher.search(searchEntered)
+    title, image, url, console, release = mySearcher.search(searchEntered)
 
     results = zip(title, image, url, console) # zip of results
 
@@ -74,7 +74,7 @@ def gameSearch():
 
     if not title:
         return retResults
-        
+
     title, image, url, console, release = mySearcher.search(title)
 
     results = zip(title, image, url, release)
