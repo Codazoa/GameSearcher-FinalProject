@@ -20,6 +20,26 @@
     overflow:visible;
 }
 
+.SR-footer {
+    margin-top: 10px;
+    display: flex;
+    padding: 10px;
+    flex-direction: row;
+    overflow:visible;
+}
+
+.footer-text {
+    font-size: 40px;
+    padding: 15px;
+    margin-right: 20px;
+}
+
+.footer-text:hover {
+    font-size: 45px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 .visually-hidden {
     clip: rect(0 0 0 0);
     clip-path: inset(50%);
@@ -38,23 +58,31 @@
     border-style: solid;
     border-color: black;
     border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    height: 300px;
-    width: 300px;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.3);
+    height: 420px;
+    width: 350px;
     overflow: hidden;
+    justify-content: center;
     background-color: rgb(133, 157, 238);
     place-items: center;
 }
 
+.tupleimage {
+    height: 300px;
+    pointer-events: none;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
 .tuplestext {
-    padding: 20px;
-    font-size: 30px;
+    padding: 10px;
+    font-size: 20px;
     overflow: hidden;
-    flex-direction: column;
-    display: inline-block;
+    flex-direction: row;
+    display: block;
     text-decoration: none;
 }
 #tuplebtn:hover {
     cursor: pointer;
     text-decoration: underline;
+    font-size: 25px;
 }

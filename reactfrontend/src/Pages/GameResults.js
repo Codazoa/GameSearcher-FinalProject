@@ -9,6 +9,8 @@ import TimeLine from '../Components/timeline';
 
 function GameResults() {
     let navigate = useNavigate();
+
+    
     return (
         <div className="GameResults">
             <div className="GR-header">
@@ -16,22 +18,35 @@ function GameResults() {
             </div>
             <div className="GR-body">
                 <li>   
-                    <GameTuple>Game</GameTuple>
+                    <GameTuple>
+                        <div className='gametitle'>Game</div>
+                        <div className='gamepicture'>picture</div>
+                    </GameTuple>
                 </li>
                 <li>
-                    <GameTuple>Game 1</GameTuple>
+                    <GameTuple>
+                        Game 1
+                    </GameTuple>
                 </li>
                 <li>
-                    <GameTuple>Game 2</GameTuple>
+                    <GameTuple>
+                        Game 2
+                    </GameTuple>
                 </li>
                 <li>
-                    <GameTuple>Game 3</GameTuple>
+                    <GameTuple>
+                        Game 3
+                    </GameTuple>
                 </li>
                 <li>
-                    <GameTuple>Game 4</GameTuple>
+                    <GameTuple>
+                        Game 4
+                    </GameTuple>
                 </li>
                 <li>
-                    <GameTuple>Game 5</GameTuple>
+                    <GameTuple>
+                        Game 5
+                    </GameTuple>
                 </li>
             </div>
             <TimeLine></TimeLine>

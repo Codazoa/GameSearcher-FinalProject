@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../Styling/SearchBar.css";
 import SearchIcon from "@material-ui/icons/Search";
 import CloseIcon from "@material-ui/icons/Close";
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams, createSearchParams } from 'react-router-dom';
 
 function SearchBar({ placeholder }) {
   let navigate = useNavigate();
@@ -13,6 +13,27 @@ function SearchBar({ placeholder }) {
   const [newKeyWord, setNewKeyWord] = useState([
     { keyWord: "" }
   ]);
+  const [search, setIsSearch] = useState();
+  let [searchParams, setSearchParams] = useSearchParams()
+  const isMounted = useRef(false);
+  
+  // Using useEffect for single rendering
+  useEffect(() => {
+    if(isMounted.current) {
+      console.log(window.location.pathname.toString())
+      if (window.location.pathname.toString() === '/') {
+        navigate({pathname:'searchresults', search: `?${createSearchParams({
+          search: wordEntered
+        })}`});
+      } else {
+        navigate( {search: createSearchParams({search: wordEntered}).toString()});
+        window.location.reload()
+      }
+      console.log(window.location.pathname.toString()); 
+    } else {
+      isMounted.current = true;
+    }
+  }, [search]);
 
   /*stores and updates the user search text*/
   const handleFilter = (event) => {
@@ -35,28 +56,7 @@ function SearchBar({ placeholder }) {
 
   /*handles regular and adv searches, then navigates to game results*/
   const handleSearch = () => {
-    
-    /*handles adv search*/
-    if(isVisible) {
-      
-      const searchParams = new URLSearchParams();
-      
-      console.log("made it")
-      // update browser url
-      
-      /*this.props.history.push({
-        pathname: '/current/route/',
-        search: "?search=<halo>"
-      })
-      */
-      console.log("made it")
-      
-      navigate('./searchresults')
-    }
-
-    /*handle normal search*/
-
-    navigate('./searchresults')
+    setIsSearch(search + 1)
   }
 
   /*toggles the visibility of the advanced search menu*/

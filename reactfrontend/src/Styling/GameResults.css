@@ -53,6 +53,17 @@
 
 }
 
+.gametitle {
+    font-size: 25px;
+    overflow: hidden;
+    text-decoration: none;
+    place-content: center;
+}
+
+.gamepicture {
+    place-content: center;
+}
+
 .timeline {
     display: flex;
     flex-direction: column;

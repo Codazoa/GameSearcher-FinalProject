@@ -9,7 +9,6 @@ const timelineData = [
 			color: '#FFDB14'
 		},
         link: {
-            url: 'https://github.com/florinpop17/app-ideas',
             text: 'Link to mario'
         }
     },
@@ -21,7 +20,6 @@ const timelineData = [
 			color: '#e17b77'
 		},
         link: {
-            url: 'https://florin-pop/blog/2019/03/weekly-coding-challenge/',
             text: 'Link to sonic'
         }
     },
@@ -33,7 +31,6 @@ const timelineData = [
 			color: '#1DA1F2'
 		},
         link: {
-            url: 'https://twitter.com/florinpop1705',
             text: 'Link to call of duty'
         }
     },
@@ -45,7 +42,6 @@ const timelineData = [
 			color: '#FFDB14'
 		},
         link: {
-            url: 'https://github.com/florinpop17/app-ideas',
             text: 'Link to mario'
         }
     }
@@ -56,15 +52,6 @@ const TimelineItem = ({ data }) => (
         <div className="timeline-item-content">
             <p>{data.text}</p>
             <time>{data.date}</time>
-            {data.link && (
-                <a
-                    href={data.link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    {data.link.text}
-                </a>
-            )}
             <span className="circle" />
         </div>
     </div>
