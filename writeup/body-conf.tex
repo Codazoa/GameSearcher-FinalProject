@@ -74,31 +74,27 @@ The API utilizes these dynamic URLs to indicate the query and allow optional arg
 The gameresult page returns the release date instead of the console information.
 
 \section{Viewing the data}
-The data will be displayed to the user using the React JavaScript library. React was chosen due to its high customizability and open source foundation. 
+The data will be displayed to the user using the React JavaScript library. React was chosen due to its high customizability and open source foundation, however in hindsight a library written in a more familiar language would have been a better choice. The styling of all elements is controlled by CSS files. 
 
 \subsection{Design Choices}
-A simple background, logo, and buttons were chosen to create a sleek home page. The search bar was created longer to fit six words, because the query will also search through the descriptions of the games. This allows the user to still find the game if they cannot remember the exact title. 
+A simple background, logo, and buttons were chosen to create a sleek home page. The search bar was created longer to fit six words, because the query will also search through the descriptions of the games. This allows the user to still find the game if they cannot remember the exact title. All fonts within the search bar and titles were chosen due to their clarity. 
 
-In the search results page, the background is the same as the home page to create a continuous feel throughout the web app. The results are displayed in a grid 2 results wide and 5 results tall to fit 10 results per page. 
+In the search results page, the background is the same as the home page to create a continuous feel throughout the web app. The results are displayed in a grid 2 results wide and 5 results tall to fit 10 results per page. Each game shown has a slight shadow behing the box and the picture of the game to draw the users attention. While the mouse is hovering over the games title, it increases in size and is underlined. This is to give a responsive feel to the page while also making it easier for the user to read. 
+
+In the game results page, each game is shown to the user horizontally. As the user scrolls a game off the screen, it increases in opacity and slides down to give an animated effect. When a game appears on the screen, it decreases in opacity and shifts up. This gives a responsive feel to the page. The timeline is also displayed horizontally below the games to give a continuous flow to the game results page. The white color in the timeline makes it pop, and draws the users eyes. 
 
 \subsection{Functionality}
-Each separate page and component (search bar, tuple) displayed to the user is created in a separate javascript file. The users queries and search options are easily recorded and handled using state variables. These state variables make handling user requests easy, because as the state variable is updated the components shown to the user can be updated. 
+Each separate page and component displayed to the user is created in a separate javascript file. The users queries and search options are easily recorded and handled using state variables. These state variables make handling user requests easy, because as the state variable is updated the components shown to the user can be updated. UseEffect was used to run on the initial render for both the game results page and search results page. This is to fetch the data from the backend and display it to the user. UseEffect was also used in the search bar component to navigate to other pages whenever the user inputted a search. 
 
-The color, fonts, and format are assigned in CSS files. Each page has a separate CSS file. 
+The data was requested from the backend using createSearchParams from 'react-router-dom'. This package allowed for the data to be requested at the same time as the front end navigated to the correct page. The package BrowserRouter was imported from 'react-router-dom' in order for the routes between the pages to be set. 
+
+The color, fonts, and format are assigned in CSS files. Elements could be customized to hover, underlined, adjust size, change opacity, and rotated. Each page has a separate CSS file. 
 
 \subsection{Citations}
 Citations to articles
 
 \section{Conclusions}
-This paragraph will end the body of this sample document.
-Remember that you might still have Acknowledgments or
-Appendices; brief samples of these
-follow.  There is still the Bibliography to deal with; and
-we will make a disclaimer about that here: with the exception
-of the reference to the \LaTeX\ book, the citations in
-this paper are to articles which have nothing to
-do with the present subject and are used as
-examples only.
+The front end of this project was not completed due to my lack of experience in javascript. We were able to import all data, but handling the data in javascript was the problem. The search results page is complete because there are only ten results displayed each page. However in the game results page, the timeline and the games have to be dynamically created due to the number of results returned varying. From the resources I could find, any solution offered did not allow me to dynamically set useState variables. This was also the case for the keywords in the advanced search menu. The overall structure of the front end is complete, without most of its features due to this problem. 
 \end{document}  % This is where a 'short' article might terminate
 
 

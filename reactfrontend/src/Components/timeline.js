@@ -2,48 +2,20 @@ import '../Styling/timeline.css'
 
 const timelineData = [
     {
-        text: 'Mario',
+        text: 'Call of Duty 1',
         date: 'February 25 2019',
-        category: {
-			tag: 'app-ideas',
-			color: '#FFDB14'
-		},
-        link: {
-            text: 'Link to mario'
-        }
     },
     {
-        text: 'Sonic',
+        text: 'Call of Duty 2',
         date: 'March 04 2019',
-        category: {
-			tag: 'blog',
-			color: '#e17b77'
-		},
-        link: {
-            text: 'Link to sonic'
-        }
     },
     {
-        text: 'Call of duty',
+        text: 'Call of duty 3',
         date: 'March 07 2019',
-        category: {
-			tag: 'twitter',
-			color: '#1DA1F2'
-		},
-        link: {
-            text: 'Link to call of duty'
-        }
     },
     {
-        text: 'Mario',
+        text: 'Call of Duty 4',
         date: 'February 25 2019',
-        category: {
-			tag: 'app-ideas',
-			color: '#FFDB14'
-		},
-        link: {
-            text: 'Link to mario'
-        }
     }
 ]
 

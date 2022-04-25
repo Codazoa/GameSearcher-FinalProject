@@ -1,16 +1,49 @@
-import { FastRewindRounded, Timeline } from '@material-ui/icons';
-import {useRef,useEffect,useState} from 'react';
+
+import {useEffect,useState} from 'react';
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
 import "../Styling/GameResults.css"
-import { toBePartiallyChecked } from '@testing-library/jest-dom/dist/matchers';
 import GameTuple from '../Components/gametuple';
 import TimeLine from '../Components/timeline';
 
 function GameResults() {
-    let navigate = useNavigate();
+    const [newGame, setNewGame] = useState([]);
 
-    
+    /*dynamically add useState variables containing related games
+      doesn't work for some reason*/
+    function setData(game) {
+        console.log(game)
+        setNewGame([...newGame, 
+            game.title
+        ])
+        console.log(newGame)
+    };  
+
+    /*only run this once, GET request for the gameresults*/
+    useEffect(() => {
+        let url = new URL(window.location.href.toString());
+        let search_params = url.searchParams;
+        let basicSearch = search_params.get('title')
+        const path = "http://localhost:5000/gameresults?title=" + basicSearch;
+        fetch(path).then((res) =>
+            res.json().then((data) => {
+                // Setting a data from api
+                var game = data.results;
+                game.map((Object, i) => {
+                    console.log(i);
+                    console.log(Object.title);
+                    setData(Object)
+                    //another method I tried to dynamically add useState variables
+                    //setNewGame([...newGame, { game: Object }])
+                    //const {name,value} = Object;
+                    //const list = [...newGame];
+                    //list[i][name] = value;
+                    //setNewGame(list);
+                });
+            }
+        ));
+    }, []);
+
+
     return (
         <div className="GameResults">
             <div className="GR-header">
@@ -19,8 +52,7 @@ function GameResults() {
             <div className="GR-body">
                 <li>   
                     <GameTuple>
-                        <div className='gametitle'>Game</div>
-                        <div className='gamepicture'>picture</div>
+                        Game
                     </GameTuple>
                 </li>
                 <li>

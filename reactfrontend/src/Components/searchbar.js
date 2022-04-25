@@ -3,24 +3,26 @@ import "../Styling/SearchBar.css";
 import SearchIcon from "@material-ui/icons/Search";
 import CloseIcon from "@material-ui/icons/Close";
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import { useNavigate, useSearchParams, createSearchParams } from 'react-router-dom';
+import { useNavigate, createSearchParams } from 'react-router-dom';
 
 function SearchBar({ placeholder }) {
   let navigate = useNavigate();
-  const [wordEntered, setWordEntered] = useState("");
-  const [isVisible, setIsVisible] = useState(false);
-  const [isChecked, setIsChecked] = useState(true);
-  const [newKeyWord, setNewKeyWord] = useState([
+  const [wordEntered, setWordEntered] = useState(""); //holds basic search word
+  const [isVisible, setIsVisible] = useState(false);  //bool for opening adv search menu
+  const [isChecked, setIsChecked] = useState(true);   //bool for type of search
+  const [newKeyWord, setNewKeyWord] = useState([      //keeps track of keywords
     { keyWord: "" }
   ]);
-  const [search, setIsSearch] = useState();
-  let [searchParams, setSearchParams] = useSearchParams()
-  const isMounted = useRef(false);
+  const [search, setIsSearch] = useState();           //to trigger the useeffect
+  const isMounted = useRef(false);                    //to check where user is searching from
   
-  // Using useEffect for single rendering
+  /*runs useEffect whenever search changes
+    isMounted is to ensure it doesn't run on the initial render
+    The first navigate is for a search from the home screen
+    and the second navigate is for a search from search results page*/
   useEffect(() => {
     if(isMounted.current) {
-      console.log(window.location.pathname.toString())
+      
       if (window.location.pathname.toString() === '/') {
         navigate({pathname:'searchresults', search: `?${createSearchParams({
           search: wordEntered
@@ -29,7 +31,6 @@ function SearchBar({ placeholder }) {
         navigate( {search: createSearchParams({search: wordEntered}).toString()});
         window.location.reload()
       }
-      console.log(window.location.pathname.toString()); 
     } else {
       isMounted.current = true;
     }
@@ -87,7 +88,11 @@ function SearchBar({ placeholder }) {
     const {name, value} = e.target;
     const list = [...newKeyWord];
     list[index][name] = value;
-    setNewKeyWord(list);
+    console.log(list[index])
+    //setNewKeyWord(list);
+    setNewKeyWord([...newKeyWord, 
+      list
+    ])
   }
 
   return (

@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import "../Styling/SearchResults.css";
 import SearchBar from "../Components/searchbar";
-import Tuple from "../Components/tuple";
-import { useLocation, useNavigate, createSearchParams} from 'react-router-dom';
+import {useNavigate, createSearchParams} from 'react-router-dom';
 
 function SearchResults() {
-    const [search, setSearch] = useState("")
     const [mount, isMounted] = useState(true);
     const [tuple1, setTuple1] = useState([]);
     const [tuple2, setTuple2] = useState([]);
@@ -29,7 +27,6 @@ function SearchResults() {
         fetch(path).then((res) =>
             res.json().then((data) => {
                 // Setting a data from api
-                console.log(data);
                 setTuple1(data.results[0]);
                 setTuple2(data.results[1]);
                 setTuple3(data.results[2]);
@@ -44,7 +41,6 @@ function SearchResults() {
                 
             })
         );
-        var yay = 'hello'
 
         isMounted.current = false;
     }, []);
@@ -55,9 +51,9 @@ function SearchResults() {
     }
     */
 
-    const gameFound = () => {
-        navigate({pathname:'/gameresults', search: `?${createSearchParams({title: 'Dr. Mario'})}`});
-    }
+    const gameFound = (game) => {
+        navigate({pathname:'/gameresults', search: `?${createSearchParams({title: game})}`});
+    };
 
     return (
         <div className="SearchResults">
@@ -69,16 +65,16 @@ function SearchResults() {
                 <header className="SR-body">
                     <div className="tuples">
                         <div className="tuplestext">
-                            <div id="tuplebtn" onClick={gameFound}>{tuple1.title}</div>
+                            <div id="tuplebtn" onClick={() => gameFound(tuple1.title)}>{tuple1.title}</div>
                             <img src={tuple1.image} className="tupleimage"  alt="gamepic" />
                             <div>Consoles: {tuple1.console}</div>
                         </div>
                     </div>
                     <div className="tuples">
                         <div className="tuplestext">
-                            <div id="tuplebtn">{tuple2.title}</div>
+                            <div id="tuplebtn" onClick={() => gameFound(tuple2.title)}>{tuple2.title}</div>
                             <img src={tuple2.image} className="tupleimage"  alt="gamepic" />
-                            <div>{tuple2.console}</div>
+                            <div>Consoles: {tuple2.console}</div>
                         </div>
                     </div>
                     {/* call function to display tuples */}
@@ -86,64 +82,64 @@ function SearchResults() {
                 <header className="SR-body">
                     <div className="tuples">
                         <div className="tuplestext">
-                            <div id="tuplebtn">{tuple3.title}</div>
+                            <div id="tuplebtn" onClick={() => gameFound(tuple3.title)}>{tuple3.title}</div>
                             <img src={tuple3.image} className="tupleimage"  alt="gamepic" />
-                            <div>{tuple3.console}</div>
+                            <div>Consoles: {tuple3.console}</div>
                         </div>
                     </div>
                     <div className="tuples">
                         <div className="tuplestext">
-                            <div id="tuplebtn">{tuple4.title}</div>
+                            <div id="tuplebtn" onClick={() => gameFound(tuple4.title)}>{tuple4.title}</div>
                             <img src={tuple4.image} className="tupleimage"  alt="gamepic" />
-                            <div>{tuple4.console}</div>
+                            <div>Consoles: {tuple4.console}</div>
                         </div>
                     </div>
                 </header>
                 <header className="SR-body">
                     <div className="tuples">
                         <div className="tuplestext">
-                            <div id="tuplebtn">{tuple5.title}</div>
+                            <div id="tuplebtn" onClick={() => gameFound(tuple5.title)}>{tuple5.title}</div>
                             <img src={tuple5.image} className="tupleimage"  alt="gamepic" />
-                            <div>{tuple5.console}</div>
+                            <div>Consoles: {tuple5.console}</div>
                         </div>
                     </div>
                     <div className="tuples">
                         <div className="tuplestext">
-                            <div id="tuplebtn">{tuple6.title}</div>
+                            <div id="tuplebtn" onClick={() => gameFound(tuple6.title)}>{tuple6.title}</div>
                             <img src={tuple6.image} className="tupleimage"  alt="gamepic" />
-                            <div>{tuple6.console}</div>
+                            <div>Consoles: {tuple6.console}</div>
                         </div>
                     </div>
                 </header>
                 <header className="SR-body">
                     <div className="tuples">
                         <div className="tuplestext">
-                            <div id="tuplebtn">{tuple7.title}</div>
+                            <div id="tuplebtn" onClick={() => gameFound(tuple7.title)}>{tuple7.title}</div>
                             <img src={tuple7.image} className="tupleimage"  alt="gamepic" />
-                            <div>{tuple7.console}</div>
+                            <div>Consoles: {tuple7.console}</div>
                         </div>
                     </div>
                     <div className="tuples">
                         <div className="tuplestext">
-                            <div id="tuplebtn">{tuple8.title}</div>
+                            <div id="tuplebtn" onClick={() => gameFound(tuple8.title)}>{tuple8.title}</div>
                             <img src={tuple8.image} className="tupleimage"  alt="gamepic" />
-                            <div>{tuple8.console}</div>
+                            <div>Consoles: {tuple8.console}</div>
                         </div>
                     </div>
                 </header>
                 <header className="SR-body">
                     <div className="tuples">
                         <div className="tuplestext">
-                            <div id="tuplebtn">{tuple9.title}</div>
+                            <div id="tuplebtn" onClick={() => gameFound(tuple9.title)}>{tuple9.title}</div>
                             <img src={tuple9.image} className="tupleimage"  alt="gamepic" />
-                            <div>{tuple9.console}</div>
+                            <div>Consoles: {tuple9.console}</div>
                         </div>
                     </div>
                     <div className="tuples">
                         <div className="tuplestext">
-                            <div id="tuplebtn">{tuple10.title}</div>
+                            <div id="tuplebtn" onClick={() => gameFound(tuple10.title)}>{tuple10.title}</div>
                             <img src={tuple10.image} className="tupleimage"  alt="gamepic" />
-                            <div>{tuple10.console}</div>
+                            <div>Consoles: {tuple10.console}</div>
                         </div>
                     </div>
                 </header>
