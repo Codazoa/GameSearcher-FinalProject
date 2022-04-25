@@ -5,17 +5,17 @@ In traditional video game search engines, the query pertains to titles and genre
 \section{Collecting the data}
 The data used in our database came from scraping wikipedia articles for video games. Wikipeida offers large lists of games for each major console. The scraper was designed to pull information from the info box, description, and main body of each page.
 
-
-
-The infobox (Figure \ref{fig:infobox}) contains most of the game's information we will collect
-
-\begin{figure}[h!]
-\includegraphics[width=1in]{infobox}
+\begin{figure}[H]
+\includegraphics[width=2in]{infobox}
 \caption{Wikipedia Infobox}
 \label{fig:infobox}
 \end{figure}
 
-There were 16,508 games collected in total. This data was collected into a JSON format (Figure \ref{fig:JSONsample}) so that the indexer program could easily add the data into the Whoosh! index. 
+The infobox (Figure \ref{fig:infobox}) contains most of the game's information we will collect. We used the BeautifulSoup4 python module to extract relevant data from the info box and wiki article. We save the url of the cover art contained in the image's srcset html attribute. The developer entry is stored as a single string because each game has a single developer. The platforms entry is stored as a comma separated string for each platform the game was released on. This is to aid whoosh in indexing the values. The release entry was difficult for us to retrieve reliably. Our solution is to store the text of the entire row and use regular expressions to filter out non-date portions of the string. Some date strings were incorrectly parsed by our implementation. Our solution is to use regular expression matching to filter the first string containing a year and save that instead. Some of our data ends up not having a valid year because of the way those games list their release dates. 
+
+Our scraper also collects the body text of each game's wiki page. The body was broken down into a summary and body section. We chose the summary to be the first two paragraphs of the main wiki content and the body to be the rest of the page. Collecting all of this data is important so the user has more content for their query to match to. This will allow our search engine to return games based on descriptions rather than simple titles. 
+
+There were 16,508 games collected in total. This data was collected into a JSON format (Figure \ref{fig:JSONsample}) so that the indexer program could easily add the data into the Whoosh! index.
 
 \begin{minipage}[H]{0.4\textwidth}
 \begin{verbatim}
@@ -46,14 +46,38 @@ The Whoosh! python module was used to index the collected data. We chose to coll
 \label{fig:whooshschema}
 \end{figure}
 
+In the above schema, attributes marked with ID are stored as the entire string. This is useful for the url, image, and release date as these attributes will not be searched over but they will need to be returned to the user. Attributes marked with KEYWORD are stored as each individual word in the string without any adjacency information to aid in matching queries. The attributes marked with TEXT store more information about the position of each word in the string to aid searches on these attributes. Anything with stored=True will be available to return to the user, but this will increase the size of the index. Since the body text will never be returned to the user there is no point in storing it. The option scorable=True allows the user to search over the keywords. The option lowercase=True converts all strings that are stored in the attribute to lowercase. For summary and body, we decided to use the default stemming analyzer in order to save space.
+
 \section{Serving the data}
-We are using the Flask module as an API to connect the backend to the frontend. The React frontend app will be able to request data through the API in order to display what the user wants.
+We are using the Flask module as an API to connect the backend to the frontend. The React frontend app will be able to request data through the API in order to display what the user wants. There are two API pages available for the frontend to request data:
+
+/gameresults?[query string]
+
+/searchresults?[query string]
+
+The searchresults page has optional arguments for search, console, mode (disjunctive/conjunctive), and page number. The gameresults page is only expecting a title argument. Each argument in the query string is separated by a \& symbol.\\
+Example: /searchresults?search=zombies\&console=xbox
+
+The API utilizes these dynamic URLs to indicate the query and allow optional arguments. These URLs can be provided directly or created by the frontend. The data is provided in a JSON format. Only the relevant data for the API page is returned. The searchresult page returns the following JSON format:
+
+\begin{minipage}[H]{\textwidth}
+\begin{verbatim}
+{
+  "title": "Halo 3",
+  "image": "cover art url",
+  "url": "wiki article url",
+  "console": "Xbox 360"
+}
+\end{verbatim}
+\end{minipage}
+
+The gameresult page returns the release date instead of the console information.
 
 \section{Viewing the data}
 The data will be displayed to the user using the React JavaScript library. React was chosen due to its high customizability and open source foundation. 
 
 \subsection{Design Choices}
-A simple background, logo, and buttons were chosen to create a sleek home page. The search bar was created longer to fit six words, because the query will also search through the descriptions of the games. This allows the user to still find the game if he cannot remember the exact title. 
+A simple background, logo, and buttons were chosen to create a sleek home page. The search bar was created longer to fit six words, because the query will also search through the descriptions of the games. This allows the user to still find the game if they cannot remember the exact title. 
 
 In the search results page, the background is the same as the home page to create a continuous feel throughout the web app. The results are displayed in a grid 2 results wide and 5 results tall to fit 10 results per page. 
 
