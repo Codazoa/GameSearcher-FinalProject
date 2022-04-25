@@ -1,0 +1,13 @@
+about-time==3.1.1
+alive-progress==2.4.1
+click==8.1.2
+Flask==2.1.1
+Flask-Cors==3.0.10
+grapheme==0.6.0
+itsdangerous==2.1.2
+Jinja2==3.1.1
+MarkupSafe==2.1.1
+python-dotenv==0.20.0
+six==1.16.0
+Werkzeug==2.1.1
+Whoosh==2.7.4
