@@ -4,6 +4,7 @@ Cody Vernon
 Trace Logan
 
 ## To install
+npm must be installed on the system before installation
 
 `bash install.sh`
 
