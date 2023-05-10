@@ -1,5 +1,5 @@
 # Game Searcher
-## Information Retrieval Final Project
+Information Retrieval Final Project
 
 Cody Vernon
 Trace Logan
