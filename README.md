@@ -1,4 +1,5 @@
-# cs454 Game Searcher
+# Game Searcher
+## Information Retrieval Final Project
 
 Cody Vernon
 Trace Logan
