@@ -1,7 +1,7 @@
 # Game Searcher
 Information Retrieval Final Project
 
-Cody Vernon
+Cody Vernon,
 Trace Logan
 
 ## To install
